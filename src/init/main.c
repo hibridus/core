@@ -6,7 +6,7 @@ static volatile struct limine_framebuffer_request fb_request = {
     .revision = 0
 };
 
-static struct limine_framebuffer *fb;
+static struct limine_framebuffer* fb;
 
 void kmain()
 {
@@ -15,16 +15,15 @@ void kmain()
 
     fb = fb_request.response->framebuffers[0];
 
-    uint64_t w     = fb->width;
-    uint64_t h     = fb->height;
-    uint64_t pitch = fb->pitch;
-    uint32_t* addr = (uint32_t*)fb->address;
+    InitFramebuffer(fb->width, fb->height, fb->pitch, fb->address);
 
-    for (uint64_t y = 0; y < h; y++)
+    CleanScreen();
+
+    Print("Um pequeno salto para o homem. Um salto gigantesco para a humanidade\n\n", 0xFFFFFFFF);
+    Print("-Neil Armstrong 2", 0xFF00FFFF);
+
+    while (1)
     {
-        for (uint64_t x = 0; x < w; x++)
-        {
-            addr[x + (y * (pitch / 4))] = 0xFFFFFFFF;
-        }
+
     }
 }
