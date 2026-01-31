@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 import json
 
-CFG = json.loads(Path("../cache/config.json").read_text())
+CFG = json.loads(Path("../../cache/config.json").read_text())
 
 Path("cache").mkdir(parents=True, exist_ok=True)
 Path("build").mkdir(parents=True, exist_ok=True)
