@@ -4,6 +4,9 @@ import json
 
 CFG = json.loads(Path("../cache/config.json").read_text())
 
+Path("cache").mkdir(parents=True, exist_ok=True)
+Path("build").mkdir(parents=True, exist_ok=True)
+
 # Compile
 subprocess.run([
     CFG["COMPILER"],
@@ -11,20 +14,20 @@ subprocess.run([
     *CFG["FLAGS"].split(),
     "-c",
     "src/init/main.c",
-    "-o", "kernel.o"
+    "-o", "cache/kernel.o"
 ], check=True)
 
 # Link
 subprocess.run([
     CFG["LINKER"],
     "-T", "linker.ld",
-    "kernel.o",
-    "-o", "KERNEL_X64.elf"
+    "cache/kernel.o",
+    "-o", "build/KERNEL_X64.elf"
 ], check=True)
 
 # Send the kernel to the Master
 print("""{
     "master": {
-        "KERNEL_X64.elf": ""
+        "build/KERNEL_X64.elf": ""
     }
 }""")
